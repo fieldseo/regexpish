@@ -1,0 +1,112 @@
+
+= Regexpish
+
+Help with regular-expression(regexp) tasks such as:
+
+* Parse string with regexp pattern to produce Regexp object.
+* Change ‘flag modifires’ on existing Regexp object.
+
+When the regualar experession is in string form(such as when you read in the regexp 
+from a configuration file) you will need to parse the string looking for the regexp 
+pattern, optionaly looking for the flags, and then makes the Regexp opbject. 
+
+---
+
+== Syntax
+
+Regexpish.regexp(thing [, options ])
+
+Will return an Regexp object or nil.  It returns nil if the ':regexp_form' pattern 
+does not match with thing(if thing is a String)
+
+thing
+
+- Is a String, Regexp or other type.
+- If other type it Regexpish.regexp(think) creates a Regexp object using Regexp.new(thing.to_s)
+- String: Look below for more info??.
+- Regexp: produces a Regexp object.
+
+options
+
+A optional hash with these optional keys:
+
+- :regexp_form          (Default: /(?:re:\s*)?\/(.*)\/([i|x|m]*)/i )
+- :regexp_pattern_index (Default: 1 )
+- :regexp_flags_index   (Default: 2 )
+- :flags                (Default: nil )
+
+= Default usage: Regexpish.regexp(thing)
+
+Default Regexp String Pattern: "re: /regexp/flags"
+
+- where 're:' is optional and case does not matter.
+- spaces before and after 're:' does not matter
+- spaces before and after '/regexp/flags' does not matter.
+- 'flags' can be blank or any combination of 'i','x' or 'm'
+- there can be no spaces betweens flags but case does not matter.
+- Except for the 're:' the default regular expression pattern in 
+  the input string is just like Ruby's objects literal notation.
+
+Examples:
+Regexpish.regexp("re: /abc/i")      ==> /abc/i
+Regexpish.regexp(" re:   /abc/ix ") ==> /abc/ix
+Regexpish.regexp("re: /abc/")       ==> /abc/
+Regexpish.regexp(" RE:/abc/m ")     ==> /abc/m
+Regexpish.regexp("RE: /abc/")       ==> /abc/
+Regexpish.regexp("/abc/x")          ==> /abc/x
+Regexpish.regexp("/abc/i")          ==> /abc/i
+Regexpish.regexp("/abc/")           ==> /abc/
+Regexpish.regexp("/abc/ ")          ==> /abc/
+Regexpish.regexp(" /abc/")          ==> /abc/
+Regexpish.regexp("/abc/ix")         ==> /abc/ix
+Regexpish.regexp("/abc/X")          ==> /abc/x
+Regexpish.regexp("Re:/abc/x")       ==> /abc/x
+Regexpish.regexp("rE: /abc/IxM")    ==> /abc/ixm
+
+
+= Optional usages: Regexpish.regexp(thing,options)
+
+== Input Regexp String Pattern: "regexp"
+
+options = { :regexp_form=> /(.*)/ }
+
+Examples:
+
+- Regexpish.regexp("abc", options)    ==> /abc/
+- Regexpish.regexp(" abc ", options)  ==> / abc /
+
+If you want to allow leading and trailing white spaces that is not part of the 'regexp'
+options = { :regexp_form => /\A\s*(.*?)\s*\Z/ }
+
+Examples:
+
+- Regexpish.regexp("abc", options)    ==> /abc/
+- Regexpish.regexp(" abc ", options)  ==> /abc/
+
+
+== Input Regexp String Pattern: "(?used-notused:regexp)"
+
+- This pattern is produced by Regexp#to_s
+- Example: r=/ab+c/ix; r.to_s ==> "(?ix-m:ab+c)"
+- 'used' are the flag modifiers used
+- 'notused' are the flag modifiers not used
+- The flag modifiers can only be 'i','x' or 'm'
+- Each modifiers can only be used once.
+
+options = { :regexp_form=>/\(\?([i|x|m]*)-?(?:[i|x|m]*):(.*)\)/,
+            :regexp_pattern_index=> 2, 
+            :regexp_flags_index  => 1  }
+
+
+Examples:
+
+- Regexpish.regexp("(?-mix:abc)", options)  ==> /abc/
+- Regexpish.regexp("(?i-mx:abc)", options)  ==> /abc/i
+- Regexpish.regexp("(?m-ix:abc)", options)  ==> /abc/m
+- Regexpish.regexp("(?x-mi:abc)", options)  ==> /abc/x
+- Regexpish.regexp("(?ix-m:abc)", options)  ==> /abc/ix
+- Regexpish.regexp("(?mix:abc)",  options)   ==> /abc/mix  
+
+If you know of any other noraml string regular-expression use case please
+let me know.
+
