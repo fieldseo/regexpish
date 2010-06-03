@@ -10,7 +10,6 @@ When the regualar experession is in string form(such as when you read in the reg
 from a configuration file) you will need to parse the string looking for the regexp 
 pattern, optionaly looking for the flags, and then makes the Regexp opbject. 
 
----
 
 == Syntax
 
@@ -19,14 +18,14 @@ Regexpish.regexp(thing [, options ])
 Will return an Regexp object or nil.  It returns nil if the ':regexp_form' pattern 
 does not match with thing(if thing is a String)
 
-thing
+=== thing
 
 - Is a String, Regexp or other type.
 - If other type it Regexpish.regexp(think) creates a Regexp object using Regexp.new(thing.to_s)
 - String: Look below for more info??.
 - Regexp: produces a Regexp object.
 
-options
+=== options
 
 A optional hash with these optional keys:
 
@@ -48,27 +47,27 @@ Default Regexp String Pattern: "re: /regexp/flags"
   the input string is just like Ruby's objects literal notation.
 
 Examples:
-Regexpish.regexp("re: /abc/i")      ==> /abc/i
-Regexpish.regexp(" re:   /abc/ix ") ==> /abc/ix
-Regexpish.regexp("re: /abc/")       ==> /abc/
-Regexpish.regexp(" RE:/abc/m ")     ==> /abc/m
-Regexpish.regexp("RE: /abc/")       ==> /abc/
-Regexpish.regexp("/abc/x")          ==> /abc/x
-Regexpish.regexp("/abc/i")          ==> /abc/i
-Regexpish.regexp("/abc/")           ==> /abc/
-Regexpish.regexp("/abc/ ")          ==> /abc/
-Regexpish.regexp(" /abc/")          ==> /abc/
-Regexpish.regexp("/abc/ix")         ==> /abc/ix
-Regexpish.regexp("/abc/X")          ==> /abc/x
-Regexpish.regexp("Re:/abc/x")       ==> /abc/x
-Regexpish.regexp("rE: /abc/IxM")    ==> /abc/ixm
+- Regexpish.regexp("re: /abc/i")      ==> /abc/i
+- Regexpish.regexp(" re:   /abc/ix ") ==> /abc/ix
+- Regexpish.regexp("re: /abc/")       ==> /abc/
+- Regexpish.regexp(" RE:/abc/m ")     ==> /abc/m
+- Regexpish.regexp("RE: /abc/")       ==> /abc/
+- Regexpish.regexp("/abc/x")          ==> /abc/x
+- Regexpish.regexp("/abc/i")          ==> /abc/i
+- Regexpish.regexp("/abc/")           ==> /abc/
+- Regexpish.regexp("/abc/ ")          ==> /abc/
+- Regexpish.regexp(" /abc/")          ==> /abc/
+- Regexpish.regexp("/abc/ix")         ==> /abc/ix
+- Regexpish.regexp("/abc/X")          ==> /abc/x
+- Regexpish.regexp("Re:/abc/x")       ==> /abc/x
+- Regexpish.regexp("rE: /abc/IxM")    ==> /abc/ixm
 
 
 = Optional usages: Regexpish.regexp(thing,options)
 
 == Input Regexp String Pattern: "regexp"
 
-options = { :regexp_form=> /(.*)/ }
+   options = { :regexp_form=> /(.*)/ }
 
 Examples:
 
@@ -79,7 +78,6 @@ If you want to allow leading and trailing white spaces that is not part of the '
 options = { :regexp_form => /\A\s*(.*?)\s*\Z/ }
 
 Examples:
-
 - Regexpish.regexp("abc", options)    ==> /abc/
 - Regexpish.regexp(" abc ", options)  ==> /abc/
 
@@ -93,13 +91,12 @@ Examples:
 - The flag modifiers can only be 'i','x' or 'm'
 - Each modifiers can only be used once.
 
-options = { :regexp_form=>/\(\?([i|x|m]*)-?(?:[i|x|m]*):(.*)\)/,
-            :regexp_pattern_index=> 2, 
-            :regexp_flags_index  => 1  }
+  options = { :regexp_form=>/\(\?([i|x|m]*)-?(?:[i|x|m]*):(.*)\)/,
+              :regexp_pattern_index=> 2, 
+              :regexp_flags_index  => 1  }
 
 
 Examples:
-
 - Regexpish.regexp("(?-mix:abc)", options)  ==> /abc/
 - Regexpish.regexp("(?i-mx:abc)", options)  ==> /abc/i
 - Regexpish.regexp("(?m-ix:abc)", options)  ==> /abc/m
@@ -107,6 +104,6 @@ Examples:
 - Regexpish.regexp("(?ix-m:abc)", options)  ==> /abc/ix
 - Regexpish.regexp("(?mix:abc)",  options)   ==> /abc/mix  
 
-If you know of any other noraml string regular-expression use case please
+If you know of any other normal string regular-expression use case please
 let me know.
 
