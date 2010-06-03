@@ -91,9 +91,10 @@ Examples:
 - The flag modifiers can only be 'i','x' or 'm'
 - Each modifiers can only be used once.
 
-  options = { :regexp_form=>/\(\?([i|x|m]*)-?(?:[i|x|m]*):(.*)\)/,
-              :regexp_pattern_index=> 2, 
-              :regexp_flags_index  => 1  }
+   options = { :regexp_form=>/\(\?([i|x|m]*)-?(?:[i|x|m]*):(.*)\)/,
+               :regexp_pattern_index=> 2, 
+               :regexp_flags_index  => 1  }
+   Regexpish.regexp("(?-mix:regexp)", options)
 
 
 Examples:
